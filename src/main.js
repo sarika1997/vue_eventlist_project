@@ -2,12 +2,17 @@ import Vue from "vue"
 import App from "./App.vue"
 import router from "./router"
 import store from "./store/store"
+import Vuelidate from "vuelidate"
 //import BaseIcon from "./components/BaseIcon";
 //Vue.component("BaseIcon", BaseIcon); //globally registering BaseIcon
+
+Vue.use(Vuelidate)
 
 //other way to register globally
 import upperFirst from "lodash/upperFirst"
 import camelCase from "lodash/camelCase"
+
+import "nprogress/nprogress.css"
 
 const requireComponent = require.context(
   "./components",

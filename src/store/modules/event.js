@@ -5,7 +5,8 @@ export const namespaced = true
 export const state = {
   events: [],
   eventsTotal: 0,
-  event: {}
+  event: {},
+  perPage: 3
 }
 export const mutations = {
   ADD_EVENT(state, event) {
@@ -41,8 +42,8 @@ export const actions = {
         throw error
       })
   },
-  fetchEvent({ commit, dispatch }, { perPage, page }) {
-    EventService.getEvents(perPage, page)
+  fetchEvent({ commit, dispatch, state }, { /*perPage,*/ page }) {
+    return EventService.getEvents(state.perPage, page)
       .then(response => {
         commit("SET_EVENT_TOTAL", parseInt(response.headers["x-total-count"]))
         commit("SET_EVENT", response.data)
@@ -55,22 +56,23 @@ export const actions = {
         dispatch("notification/add", notification, { root: true })
       })
   },
-  fetchShowEvent({ commit, getters, dispatch }, id) {
+  fetchShowEvent({ commit, getters /* dispatch */ }, id) {
     var event = getters.getEventById(id)
     if (event) {
       commit("SET_SHOW_EVENT", event)
+      return event
     } else {
-      EventService.getEvent(id)
-        .then(response => {
-          commit("SET_SHOW_EVENT", response.data)
-        })
-        .catch(error => {
-          const notification = {
-            type: "error",
-            message: "there was a prpoblem in fetching event:" + error.message
-          }
-          dispatch("notification/add", notification, { root: true })
-        })
+      return EventService.getEvent(id).then(response => {
+        commit("SET_SHOW_EVENT", response.data)
+        return response.data
+      })
+      /*.catch(error => {
+        const notification = {
+          type: "error",
+          message: "there was a prpoblem in fetching event:" + error.message
+        }
+        dispatch("notification/add", notification, { root: true })
+      })*/
     }
   }
 }

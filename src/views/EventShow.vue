@@ -24,17 +24,34 @@
   </div>
 </template>
 <script>
-import EventService from "@/services/EventService"
-import { mapState, mapActions } from "vuex"
+//import EventService from "@/services/EventService"
+//import { mapState, mapActions } from "vuex"
+//import NProgress from "nprogress"
+//import store from "@/store/store"
+
 export default {
-  props: ["id"],
+  props: {
+    event: {
+      type: Object,
+      required: true
+    }
+  }
+  /* props: ["id"]
+  
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    NProgress.start()
+    store.dispatch("event/fetchShowEvent", routeTo.params.id).then(() => {
+      NProgress.done()
+      next()
+    })
+  },
   created() {
     this.fetchShowEvent(this.id)
-  },
-  computed: mapState({
+  },*/
+  /*computed: mapState({
     event: state => state.event.event
-  }),
-  methods: mapActions("event", ["fetchShowEvent"])
+  })
+  methods: mapActions("event", ["fetchShowEvent"])*/
 }
 </script>
 <style scoped>
